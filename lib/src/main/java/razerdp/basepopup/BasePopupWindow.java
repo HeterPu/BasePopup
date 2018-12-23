@@ -236,8 +236,7 @@ import java.util.List;
 import razerdp.blur.PopupBlurOption;
 import razerdp.interceptor.PopupWindowEventInterceptor;
 import razerdp.util.InputMethodUtils;
-import razerdp.util.PopupUiUtils;
-import razerdp.util.PopupUtils;
+import razerdp.util.PopupUtil;
 import razerdp.util.SimpleAnimationUtils;
 import razerdp.util.log.LogTag;
 import razerdp.util.log.PopupLogUtil;
@@ -337,6 +336,8 @@ public abstract class BasePopupWindow implements BasePopup, PopupWindow.OnDismis
     public static final int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
 
     private BasePopupHelper mHelper;
+    public static int SCREEN_WIDTH = 0;
+    public static int SCREEN_HEIGHT = 0;
     private WeakReference<Context> mContext;
     private PopupWindowEventInterceptor mEventInterceptor;
 
@@ -750,7 +751,7 @@ public abstract class BasePopupWindow implements BasePopup, PopupWindow.OnDismis
                 //什么都没传递，取顶级view的id
                 Context context = getContext();
                 assert context != null : "context is null ! please make sure your activity is not be destroyed";
-                Activity activity = PopupUtils.scanForActivity(context, 50);
+                Activity activity = PopupUtil.scanForActivity(context, 50);
                 if (activity == null) {
                     Log.e(TAG, "can not get token from context,make sure that context is instance of activity");
                 } else {
@@ -798,7 +799,7 @@ public abstract class BasePopupWindow implements BasePopup, PopupWindow.OnDismis
         if (mGlobalLayoutListenerWrapper != null && mGlobalLayoutListenerWrapper.isAttached()) {
             return;
         }
-        Activity activity = PopupUtils.scanForActivity(getContext(), 50);
+        Activity activity = PopupUtil.scanForActivity(getContext(), 50);
         if (activity == null) return;
         View decorView = activity.getWindow() == null ? null : activity.getWindow().getDecorView();
         if (decorView == null) return;
@@ -1934,14 +1935,20 @@ public abstract class BasePopupWindow implements BasePopup, PopupWindow.OnDismis
      * 获取屏幕高度(px)
      */
     public int getScreenHeight() {
-        return PopupUiUtils.getScreenHeightCompat(getContext());
+        if (SCREEN_HEIGHT == 0) {
+            SCREEN_HEIGHT = getContext().getResources().getDisplayMetrics().heightPixels;
+        }
+        return SCREEN_HEIGHT;
     }
 
     /**
      * 获取屏幕宽度(px)
      */
     public int getScreenWidth() {
-        return PopupUiUtils.getScreenWidthCompat(getContext());
+        if (SCREEN_WIDTH == 0) {
+            SCREEN_WIDTH = getContext().getResources().getDisplayMetrics().widthPixels;
+        }
+        return SCREEN_WIDTH;
     }
 
 

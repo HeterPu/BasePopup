@@ -9,7 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import razerdp.library.R;
-import razerdp.util.PopupUtils;
+import razerdp.util.PopupUtil;
 
 /**
  * Created by 大灯泡 on 2018/5/9.
@@ -38,7 +38,7 @@ class PopupBackgroundView extends View {
     }
 
     private void init(Context context, final BasePopupHelper mHelper) {
-        if (PopupUtils.isBackgroundInvalidated(mHelper.getPopupBackground())) {
+        if (PopupUtil.isBackgroundInvalidated(mHelper.getPopupBackground())) {
             setVisibility(GONE);
             return;
         }
